@@ -1,0 +1,45 @@
+server:
+    port: 8091
+
+# in order to make console colorful
+spring:
+    output:
+        ansi:
+            enabled: always
+
+# feign-client
+
+task-client: 
+    feign: 
+        name: task-client
+        url: http://localhost:8090/api/v1/
+
+task-client2:
+    feign:
+        name: task-client2
+        url: http://localhost:8090/api/v1/
+
+# default - for all feign client
+# feign.client.config.default.connect-timeout=10000
+# feign.client.config.default.read-timeout=20000
+
+# for specific feign client (feign.client.config.feign_client_name.*)
+
+# You may consider enabling Jackson Modules for the support 
+# org.springframework.data.domain.Page and
+# org.springframework.data.domain.Sort decoding.
+feign:
+    autoconfiguration:
+        jackson:
+            enabled: true
+    client:
+        config:
+            task-client: 
+                error-decoder: com.practice.feign.configs.feign.TaskRestFeignClientErrorDecoder
+                retryer: com.practice.feign.configs.feign.TaskRestFeignClientRetryer
+                requestInterceptors: 
+                    # - com.practice.feign.configs.feign.TaskRestFeignClientClientCredentialsRequestInterceptor
+                    - com.practice.feign.configs.feign.TaskRestFeignClientClientCredentialsRequestInterceptor
+                connect-timeout: 1800
+                read-timeout: 1800
+

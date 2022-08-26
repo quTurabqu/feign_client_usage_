@@ -1,11 +1,16 @@
 package com.practice.feign.controller;
 
+import java.util.Enumeration;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +31,19 @@ public record TaskController(@Qualifier("normalTaskService") TaskService<Task> n
     }
 
     @GetMapping
-    public List<Task> findTasks() {
+    public List<Task> findTasks(
+            // @RequestParam("c_id") String clientId,
+            // @RequestParam("c_secret") String clientSecret,
+            @RequestHeader("Client-Id") String clientId,
+            @RequestHeader("Client-Secret") String clientSecret
+    ) {
+        System.out.println(">> waiting 3 seconds: SECRETS = " + clientId + " <----> " + clientSecret);
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException exc) {
+            exc.printStackTrace();
+        }
         return normalTaskService.findAll();
     }
 
