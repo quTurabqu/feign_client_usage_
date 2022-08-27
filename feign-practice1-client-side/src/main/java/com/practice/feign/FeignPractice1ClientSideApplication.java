@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 import com.practice.feign.clients.TaskRestClient;
-import com.practice.feign.model.ScheduledTask;
 
 @EnableAspectJAutoProxy
 @EnableFeignClients(basePackages = "com.practice.feign.clients")
