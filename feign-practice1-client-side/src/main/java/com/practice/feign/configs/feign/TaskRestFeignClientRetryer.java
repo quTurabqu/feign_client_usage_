@@ -31,7 +31,7 @@ public class TaskRestFeignClientRetryer implements feign.Retryer {
         log.error(">> {}: retry attempt: {}, msg: {}", this.getClass().getSimpleName(), attempt, e.getMessage());
 
         if(attempt++ == retryMaxAttempt){
-            throw new CustomFeignClientException(new RestClientError<>("you can't retry again", e.getMessage(), UUID.randomUUID().toString(), LocalDateTime.now()));
+            throw new CustomFeignClientException(e.getMessage(), e);
         }
         try {
             Thread.sleep(retryInterval);
